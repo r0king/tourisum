@@ -3,6 +3,11 @@ import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { register } from "@/actions/register";
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Leaf } from 'lucide-react'
 
 
 export default function Register() {
@@ -24,50 +29,50 @@ export default function Register() {
         }
     };
     return (
-        <section className="w-full h-screen flex items-center justify-center">
-            <form ref={ref}
-                action={handleSubmit}
-                className="p-6 w-full max-w-[400px] flex flex-col justify-between items-center gap-2 
-        border border-solid border-black bg-white rounded">
-                {error && <div className="">{error}</div>}
-                <h1 className="mb-5 w-full text-2xl font-bold">Register</h1>
+        <div className="min-h-screen bg-secondary flex flex-col justify-center items-center p-4">
+            <Link href="/" className="text-2xl font-bold text-primary flex items-center mb-8">
+                <Leaf className="mr-2 h-6 w-6" />
+                OrginTrace
+            </Link>
+            <Card className="w-full max-w-md">
+                <form ref={ref}
+                    action={handleSubmit}>
+                    <CardHeader>
+                        <CardTitle className="text-2xl text-center text-primary">Create an Account</CardTitle>
+                        <CardDescription className="text-center">Sign up to start exploring Kerala</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        {error && <div className="">{error}</div>}
 
-                <label className="w-full text-sm">Full Name</label>
-                <input
-                    type="text"
-                    placeholder="Full Name"
-                    className="w-full h-8 border border-solid border-black py-1 px-2.5 rounded text-[13px]"
-                    name="name"
-                />
-
-                <label className="w-full text-sm">Email</label>
-                <input
-                    type="email"
-                    placeholder="Email"
-                    className="w-full h-8 border border-solid border-black py-1 px-2.5 rounded"
-                    name="email"
-                />
-
-                <label className="w-full text-sm">Password</label>
-                <div className="flex w-full">
-                    <input
-                        type="password"
-                        placeholder="Password"
-                        className="w-full h-8 border border-solid border-black py-1 px-2.5 rounded"
-                        name="password"
-                    />
-                </div>
-
-                <button className="w-full border border-solid border-black py-1.5 mt-2.5 rounded
-        transition duration-150 ease hover:bg-black">
-                    Sign up
-                </button>
-
-
-                <Link href="/login" className="text-sm text-[#888] transition duration-150 ease hover:text-black">
-                    Already have an account?
-                </Link>
-            </form>
-        </section>
-    )
+                        <div className="space-y-4">
+                            <div className="space-y-2">
+                                <Label htmlFor="name">Full Name</Label>
+                                <Input id="name" name="name" type="text" placeholder="Enter your full name" required />
+                            </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="email">Email</Label>
+                                <Input id="email" name="email" type="email" placeholder="Enter your email" required />
+                            </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="password">Password</Label>
+                                <Input id="password" name="password" type="password" placeholder="Create a password" required />
+                            </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="confirm-password">Confirm Password</Label>
+                                <Input id="confirm-password" name="confirm-password" type="password" placeholder="Confirm your password" required />
+                            </div>
+                        </div>
+                    </CardContent>
+                    <CardFooter className="flex flex-col space-y-4">
+                        <Button className="w-full bg-primary hover:bg-accent text-white">Sign Up</Button>
+                        <div className="text-sm text-center text-accent">
+                            Already have an account?{' '}
+                            <Link href="/login" className="text-primary hover:underline">
+                                Sign in
+                            </Link>
+                        </div>
+                    </CardFooter>
+                </form>
+            </Card>
+        </div >)
 }

@@ -3,6 +3,11 @@ import { FormEvent, useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Leaf } from 'lucide-react'
 
 export default function Login() {
     const [error, setError] = useState("");
@@ -23,37 +28,46 @@ export default function Login() {
         }
     };
     return (
-        <section className="w-full h-screen flex items-center justify-center">
-            <form
-                className="p-6 w-full max-w-[400px] flex flex-col justify-between items-center gap-2 
-        border border-solid border-black bg-white rounded"
-                onSubmit={handleSubmit}>
-                {error && <div className="text-black">{error}</div>}
-                <h1 className="mb-5 w-full text-2xl font-bold">Sign In</h1>
-                <label className="w-full text-sm">Email</label>
-                <input
-                    type="email"
-                    placeholder="Email"
-                    className="w-full h-8 border border-solid border-black rounded p-2"
-                    name="email" />
-                <label className="w-full text-sm">Password</label>
-                <div className="flex w-full">
-                    <input
-                        type="password"
-                        placeholder="Password"
-                        className="w-full h-8 border border-solid border-black rounded p-2"
-                        name="password" />
-                </div>
-                <button className="w-full border border-solid border-black rounded">
-                    Sign In
-                </button>
+        <div className="min-h-screen bg-secondary flex flex-col justify-center items-center p-4">
+            <Link href="/" className="text-2xl font-bold text-primary flex items-center mb-8">
+                <Leaf className="mr-2 h-6 w-6" />
+                OrginTrace
+            </Link>
+            <Card className="w-full max-w-md">
+                <form onSubmit={handleSubmit}>
+                    <CardHeader>
+                        <CardTitle className="text-2xl text-center text-primary">Welcome Back</CardTitle>
+                        <CardDescription className="text-center">Sign in to your account</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        {error && <div className="text-black">{error}</div>}
 
-                <Link
-                    href="/register"
-                    className="text-sm text-[#888] transition duration-150 ease hover:text-black">
-                    Don&apos;t have an account?
-                </Link>
-            </form>
-        </section>
+                        <div className="space-y-4">
+                            <div className="space-y-2">
+                                <Label htmlFor="email">Email</Label>
+                                <Input id="email" name="email" type="email" placeholder="Enter your email" required />
+                            </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="password">Password</Label>
+                                <Input id="password" name="password" type="password" placeholder="Enter your password" required />
+                            </div>
+                        </div>
+                    </CardContent>
+                    <CardFooter className="flex flex-col space-y-4">
+                        <Button className="w-full bg-primary hover:bg-secondary text-white">Sign In</Button>
+                        <div className="text-sm text-center text-muted-foreground">
+                            Don&apos;t have an account?{' '}
+                            <Link href="/register" className="text-primary hover:underline">
+                                Sign up
+                            </Link>
+                        </div>
+                        <Link href="/forgot-password" className="text-sm text-center text-primary hover:underline">
+                            Forgot your password?
+                        </Link>
+                    </CardFooter>
+                </form>
+            </Card>
+        </div>
+
     );
 };
