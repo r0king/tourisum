@@ -3,6 +3,7 @@
 import { connectDB } from "@/lib/mongodb";
 import Guide from "@/models/guide"
 import bcrypt from "bcryptjs";
+import { redirect } from "next/navigation";
 
 export const registerGuide = async (values: {
   name: string,
@@ -42,19 +43,9 @@ export const registerGuide = async (values: {
       status: 'pending' 
     });
 
-    const savedGuide = await guide.save();
+    await guide.save();
 
-    return {
-      name: savedGuide.name,
-      email: savedGuide.email,
-      location: savedGuide.location,
-      languages: savedGuide.languages,
-      experience: savedGuide.experience,
-      specialties: savedGuide.specialties,
-      status: savedGuide.status,
-      createdAt: savedGuide.createdAt,
-      updatedAt: savedGuide.updatedAt,
-    }
+    redirect("/login");
 
   } catch (e) {
     console.error("Error registering guide:", e);

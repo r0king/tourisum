@@ -2,6 +2,7 @@
 import { connectDB } from "@/lib/mongodb";
 import User from "@/models/user"
 import bcrypt from "bcryptjs";
+import { redirect } from "next/navigation";
 
 export const register = async (values: { email: string, password: string, name: string }) => {
     const { email, password, name } = values;
@@ -20,14 +21,10 @@ export const register = async (values: { email: string, password: string, name: 
             email,
             password: hashedPassword,
         });
-        const savedUser = await user.save();
+        await user.save();
 
-        return {
-            name: savedUser.name,
-            email: savedUser.email,
-            createdAt: savedUser.createdAt,
-            updatedAt: savedUser.updatedAt,
-        }
+        redirect("/login");
+
 
     } catch (e) {
         console.log(e);
