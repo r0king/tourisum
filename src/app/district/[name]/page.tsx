@@ -40,6 +40,7 @@ interface DistrictData {
 async function getDistrictData(name: string): Promise<DistrictData | null> {
     await connectDB()
     const district = await District.findOne({ name: { $regex: new RegExp(`^${name}`, 'i') } })
+
     if (!district) {
         return null
     }

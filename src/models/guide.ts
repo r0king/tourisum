@@ -11,7 +11,10 @@ export interface IGuide extends Document {
     specialties: string[];
     about: string;
     status: 'pending' | 'active' | 'inactive';
+    averageRating: number;
+    reviewCount: number;
 }
+
 const GuideSchema: Schema = new Schema({
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
@@ -22,7 +25,16 @@ const GuideSchema: Schema = new Schema({
     experience: { type: Number, required: true },
     specialties: { type: [String], required: true },
     about: { type: String, required: true },
-    status: { type: String, enum: ['pending', 'active', 'inactive'], default: 'pending' },
+    status: {
+        type: String,
+        enum: ['pending', 'active', 'inactive'],
+        default: 'pending'
+    },
+    averageRating: { type: Number, default: 0 },
+    reviewCount: { type: Number, default: 0 }
+}, {
+    timestamps: true
 });
 
-export default mongoose.models.Guide || mongoose.model<IGuide>('Guide', GuideSchema);
+const Guide = mongoose.models?.Guide || mongoose.model<IGuide>('Guide', GuideSchema);
+export default Guide;

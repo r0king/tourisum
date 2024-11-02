@@ -23,10 +23,9 @@ export const register = async (values: { email: string, password: string, name: 
         });
         await user.save();
 
-        redirect("/login");
-
-
     } catch (e) {
         console.log(e);
+    } finally {
+        redirect('/login');
     }
 }

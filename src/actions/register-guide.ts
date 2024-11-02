@@ -17,10 +17,10 @@ export const registerGuide = async (values: {
   about: string
 }) => {
   const { name, email, password, phone, location, languages, experience, specialties, about } = values;
- 
+
   try {
     await connectDB();
-    
+
     const guideFound = await Guide.findOne({ email });
     if (guideFound) {
       return {
@@ -29,7 +29,7 @@ export const registerGuide = async (values: {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    
+
     const guide = new Guide({
       name,
       email,
@@ -40,17 +40,20 @@ export const registerGuide = async (values: {
       experience,
       specialties,
       about,
-      status: 'pending' 
+      status: 'pending'
     });
 
     await guide.save();
 
-    redirect("/login");
 
   } catch (e) {
     console.error("Error registering guide:", e);
     return {
       error: 'An error occurred while registering the guide. Please try again later.'
     }
+  }
+  finally {
+
+    redirect("/login");
   }
 }
