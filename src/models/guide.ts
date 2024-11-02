@@ -1,6 +1,7 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema, Document,Types } from 'mongoose';
 
 export interface IGuide extends Document {
+    _id: Types.ObjectId;
     name: string;
     email: string;
     password: string;
@@ -15,7 +16,7 @@ export interface IGuide extends Document {
     reviewCount: number;
 }
 
-const GuideSchema: Schema = new Schema({
+const GuideSchema: Schema = new Schema<IGuide>({
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },

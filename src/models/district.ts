@@ -28,7 +28,7 @@ interface IEvent {
     status: 'pending' | 'approved' | 'rejected';
 }
 
-interface IDistrict extends Document {
+export interface IDistrict extends Document {
     name: string;
     description: string;
     destinations: IDestination[];
