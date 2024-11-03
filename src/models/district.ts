@@ -1,6 +1,7 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema, Document,Types} from 'mongoose';
 
-interface IDestination {
+export interface IDestination {   
+     _id: Types.ObjectId;
     name: string;
     type: string;
     description: string;

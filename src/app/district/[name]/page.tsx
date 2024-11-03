@@ -55,7 +55,7 @@ export default async function DistrictPage({ params }: { params: { name: string 
     }
 
     return (
-        <div className="min-h-screen bg-background text-foreground">
+        <div className="bg-background text-foreground">
             <header className="relative h-screen max-h-[720px] overflow-hidden">
                 <Image
                     src={districtData.destinations[0]?.imageUrl || '/images/district.jpg'}

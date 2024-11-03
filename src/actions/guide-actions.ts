@@ -17,23 +17,23 @@ export async function getAllApprovedGuides() {
 export async function approveGuide(guideId: string) {
   await connectDB()
   await Guide.findByIdAndUpdate(guideId, { status: 'active' })
-  revalidatePath('/admin/dashboard')
+  revalidatePath('/admin')
 }
 
 export async function updateGuideStatus(guideId: string, status: 'active' | 'inactive') {
   await connectDB()
   await Guide.findByIdAndUpdate(guideId, { status })
-  revalidatePath('/admin/dashboard')
+  revalidatePath('/admin')
 }
 
 export async function updateGuideInfo(guideId: string, guideData: Partial<IGuide>) {
   await connectDB()
   await Guide.findByIdAndUpdate(guideId, guideData)
-  revalidatePath('/admin/dashboard')
+  revalidatePath('/admin')
 }
 
 export async function deleteGuide(guideId: string) {
   await connectDB()
   await Guide.findByIdAndDelete(guideId)
-  revalidatePath('/admin/dashboard')
+  revalidatePath('/admin')
 }

@@ -36,17 +36,21 @@ import { useTransition } from 'react'
 import { IGuide } from '@/models/guide'
 import { getDashboardStats } from '@/actions/dashboard-actions'
 import { DashBoardOverView } from '@/components/admin-dashboard/dashboard-overview'
+import { DistrictsManagement } from './admin-dashboard/districts-management'
+import { getAllDistricts } from '@/actions/district-actions'
 
 interface AdminDashboardProps {
     stats: Awaited<ReturnType<typeof getDashboardStats>>;
     initialPendingGuides: IGuide[];
     initialAllGuides: IGuide[];
+    initialDistricts: Awaited<ReturnType<typeof getAllDistricts>>;
 }
 
 const AdminDashboard: React.FC<AdminDashboardProps> = ({
     stats: dashboardStats,
     initialPendingGuides,
     initialAllGuides,
+    initialDistricts,
 }) => {
     const [pendingGuides, setPendingGuides] = React.useState(initialPendingGuides)
     const [allGuides, setAllGuides] = React.useState(initialAllGuides)
@@ -99,7 +103,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
                     <TabsList className="mb-4 bg-primary text-primary-foreground">
                         <TabsTrigger value="overview">Overview</TabsTrigger>
                         <TabsTrigger value="guides">Guides</TabsTrigger>
-                        <TabsTrigger value="events">Events</TabsTrigger>
                         <TabsTrigger value="districts">Districts</TabsTrigger>
                     </TabsList>
 
@@ -114,12 +117,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
                         <AllGuides allGuides={allGuides} handleUpdateGuideStatus={handleUpdateGuideStatus} handleUpdateGuideInfo={handleUpdateGuideInfo} handleDeleteGuide={handleDeleteGuide} />
                     </TabsContent>
 
-                    <TabsContent value="events">
-                        events
-                    </TabsContent>
 
                     <TabsContent value="districts">
-                        events
+                        <DistrictsManagement initialDistricts={initialDistricts}/>
                     </TabsContent>
                 </Tabs>
             </main>
