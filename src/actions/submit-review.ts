@@ -9,11 +9,11 @@ export async function submitReview(formData: FormData) {
     await connectDB()
 
     const itemId = formData.get('itemId') as string
-    const itemType = formData.get('itemType') as 'destination' | 'foodSpot'
+    const itemType = formData.get('itemType') as 'destination' | 'foodSpot' | 'hotel'
     const rating = Number(formData.get('rating'))
     const comment = formData.get('comment') as string
     const districtId = formData.get('districtId') as string
-
+    
     if (!itemId || !itemType || !rating || !comment || !districtId) {
         return { error: 'Missing required fields' }
     }

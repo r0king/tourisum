@@ -14,7 +14,7 @@ interface Review {
 
 interface ReviewsModalProps {
     itemId: string
-    itemType: 'destination' | 'foodSpot'
+    itemType: 'destination' | 'foodSpot' | 'hotel'
     itemName: string
     children: React.ReactNode
 }

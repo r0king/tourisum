@@ -3,7 +3,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { connectDB } from "@/lib/mongodb"
 import District from "@/models/district"
-import { Leaf, MapPin, Utensils, Calendar, ChevronDown, Star } from 'lucide-react'
+import { Leaf, MapPin, Utensils, Calendar, ChevronDown, Star, Hotel } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -37,6 +37,17 @@ interface Event {
     location: string
 }
 
+interface Hotel {
+    _id: string
+    name: string
+    description: string
+    location: string
+    price: number
+    rating: number
+    averageRating: number
+    reviewCount: number
+}
+
 interface DistrictData {
     _id: string
     name: string
@@ -44,6 +55,7 @@ interface DistrictData {
     destinations: Destination[]
     foodSpots: FoodSpot[]
     events: Event[]
+    hotels: Hotel[]
 }
 
 async function getDistrictData(name: string): Promise<DistrictData | null> {
@@ -86,10 +98,11 @@ export default async function DistrictPage({ params }: { params: { name: string 
 
             <main className="container mx-auto px-4 py-12">
                 <Tabs defaultValue="destinations" className="w-full">
-                    <TabsList className="grid w-full text-primary-foreground grid-cols-3 mb-8">
+                    <TabsList className="grid w-full text-primary-foreground grid-cols-4 mb-8">
                         <TabsTrigger value="destinations">Destinations</TabsTrigger>
                         <TabsTrigger value="food">Food Spots</TabsTrigger>
                         <TabsTrigger value="events">Events</TabsTrigger>
+                        <TabsTrigger value="hotels">Hotels</TabsTrigger>
                     </TabsList>
                     <TabsContent value="destinations">
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -200,6 +213,51 @@ export default async function DistrictPage({ params }: { params: { name: string 
                                             {event.location}
                                         </p>
                                     </CardContent>
+                                </Card>
+                            ))}
+                        </div>
+                    </TabsContent>
+                    <TabsContent value="hotels">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {districtData.hotels.map((hotel: Hotel) => (
+                                <Card key={hotel._id}>
+                                    <CardHeader>
+                                        <CardTitle className="flex items-center capitalize">
+                                            <Hotel className="mr-2 " size={20} />
+                                            {hotel.name}
+                                        </CardTitle>
+                                        <CardDescription>
+                                            ${hotel.price} per night
+                                        </CardDescription>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <p className="mb-2">{hotel.description}</p>
+                                        <p className="flex items-center text-muted-foreground mb-2">
+                                            <MapPin className="mr-2" size={16} />
+                                            {hotel.location}
+                                        </p>
+                                    </CardContent>
+                                    <CardFooter>
+                                        <div className="flex items-center w-full justify-between">
+                                            <ReviewsModal
+                                                itemId={hotel._id}
+                                                itemType="hotel"
+                                                itemName={hotel.name}
+                                            >
+                                                <div className="flex items-center">
+                                                    <Star className="text-yellow-400 mr-1" />
+                                                    <span>{hotel.averageRating.toFixed(1)} ({hotel.reviewCount} reviews)</span>
+                                                </div>
+                                            </ReviewsModal>
+
+                                            <ReviewModal
+                                                itemId={hotel._id}
+                                                itemType="hotel"
+                                                itemName={hotel.name}
+                                                districtId={districtData._id}
+                                            />
+                                        </div>
+                                    </CardFooter>
                                 </Card>
                             ))}
                         </div>

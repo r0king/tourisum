@@ -1,7 +1,7 @@
-import mongoose, { Schema, Document,Types} from 'mongoose';
+import mongoose, { Schema, Document, Types } from 'mongoose';
 
-export interface IDestination {   
-     _id: Types.ObjectId;
+export interface IDestination {
+    _id: Types.ObjectId;
     name: string;
     type: string;
     description: string;
@@ -28,6 +28,15 @@ interface IEvent {
     location: string;
     status: 'pending' | 'approved' | 'rejected';
 }
+interface IHotel {
+    name: string;
+    description: string;
+    location: string;
+    price: number;
+    averageRating: number;
+    reviewCount: number;
+    status: 'pending' | 'approved' | 'rejected';
+}
 
 export interface IDistrict extends Document {
     name: string;
@@ -35,6 +44,7 @@ export interface IDistrict extends Document {
     destinations: IDestination[];
     foodSpots: IFoodSpot[];
     events: IEvent[];
+    hotels: IHotel[];
 }
 
 const DestinationSchema = new Schema({
@@ -77,12 +87,27 @@ const EventSchema = new Schema({
     }
 });
 
+const HotelSchema = new Schema<IHotel>({
+    name: { type: String, required: true },
+    description: String,
+    location: { type: String, required: true },
+    price: { type: Number, required: true },
+    averageRating: { type: Number, min: 0, max: 5, default: 0 },
+    reviewCount: { type: Number, default: 0 },
+    status: {
+        type: String,
+        enum: ['pending', 'approved', 'rejected'],
+        default: 'pending'
+    }
+});
+
 const DistrictSchema = new Schema<IDistrict>({
     name: { type: String, required: true, unique: true },
     description: String,
     destinations: [DestinationSchema],
     foodSpots: [FoodSpotSchema],
     events: [EventSchema],
+    hotels: [HotelSchema]
 });
 
 const District = mongoose.models?.District || mongoose.model<IDistrict>('District', DistrictSchema);

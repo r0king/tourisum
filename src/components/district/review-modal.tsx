@@ -12,7 +12,7 @@ import { submitReview } from '@/actions/submit-review'
 
 interface ReviewModalProps {
     itemId: string
-    itemType: 'destination' | 'foodSpot'
+    itemType: 'destination' | 'foodSpot' | 'hotel'
     itemName: string
     districtId: string
 }
@@ -24,6 +24,7 @@ export function ReviewModal({ itemId, itemType, itemName, districtId }: ReviewMo
 
     const handleSubmit = async (formData: FormData) => {
         const result = await submitReview(formData)
+        
         if (result.success) {
             setIsOpen(false)
             router.refresh()

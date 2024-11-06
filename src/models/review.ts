@@ -5,7 +5,7 @@ export interface IReview extends Document {
     username: string;
     rating: number;
     comment: string;
-    itemType: 'foodSpot' | 'destination' | 'guide';
+    itemType: 'foodSpot' | 'destination' | 'guide' | 'hotel';
     itemId: mongoose.Types.ObjectId;
     districtId?: mongoose.Types.ObjectId;
     status: 'pending' | 'approved' | 'rejected';
@@ -36,7 +36,7 @@ const ReviewSchema = new Schema<IReview>({
     },
     itemType: {
         type: String,
-        enum: ['foodSpot', 'destination', 'guide'],
+        enum: ['foodSpot', 'destination', 'guide', 'hotel'],
         required: true
     },
     itemId: {
