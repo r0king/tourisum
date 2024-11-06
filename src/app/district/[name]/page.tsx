@@ -3,12 +3,17 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { connectDB } from "@/lib/mongodb"
 import District from "@/models/district"
-import { Leaf, MapPin, Utensils, Calendar, ChevronDown } from 'lucide-react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Leaf, MapPin, Utensils, Calendar, ChevronDown, Star } from 'lucide-react'
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { ReviewModal } from '@/components/district/review-modal'
+import { ReviewsModal } from '@/components/district/reviews-modal'
 
 interface Destination {
+    averageRating: number
+    reviewCount: number
+    _id: string
     imageUrl: string
     name: string
     type: string
@@ -16,6 +21,9 @@ interface Destination {
 }
 
 interface FoodSpot {
+    averageRating: number
+    reviewCount: number
+    _id: string
     name: string
     cuisine: string
     description: string
@@ -30,6 +38,7 @@ interface Event {
 }
 
 interface DistrictData {
+    _id: string
     name: string
     description: string
     destinations: Destination[]
@@ -84,8 +93,8 @@ export default async function DistrictPage({ params }: { params: { name: string 
                     </TabsList>
                     <TabsContent value="destinations">
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {districtData.destinations.map((destination: Destination, index: number) => (
-                                <Card key={index} className="overflow-hidden">
+                            {districtData.destinations.map((destination: Destination) => (
+                                <Card key={destination._id} className="overflow-hidden">
                                     <Image
                                         src={destination.imageUrl || '/placeholder.svg'}
                                         alt={destination.name}
@@ -100,14 +109,34 @@ export default async function DistrictPage({ params }: { params: { name: string 
                                     <CardContent>
                                         <p>{destination.description}</p>
                                     </CardContent>
+                                    <CardFooter className="flex flex-col items-start gap-2">
+                                        <div className="flex items-center w-full justify-between">
+                                            <ReviewsModal
+                                                itemId={destination._id}
+                                                itemType="destination"
+                                                itemName={destination.name}
+                                            >
+                                                <div className="flex items-center">
+                                                    <Star className="text-yellow-400 mr-1" />
+                                                    <span>{destination.averageRating.toFixed(1)} ({destination.reviewCount} reviews)</span>
+                                                </div>
+                                            </ReviewsModal>
+                                            <ReviewModal
+                                                itemId={destination._id}
+                                                itemType="destination"
+                                                itemName={destination.name}
+                                                districtId={districtData._id}
+                                            />
+                                        </div>
+                                    </CardFooter>
                                 </Card>
                             ))}
                         </div>
                     </TabsContent>
                     <TabsContent value="food">
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {districtData.foodSpots.map((foodSpot: FoodSpot, index: number) => (
-                                <Card key={index}>
+                            {districtData.foodSpots.map((foodSpot: FoodSpot) => (
+                                <Card key={foodSpot._id}>
                                     <CardHeader>
                                         <CardTitle className="flex items-center ">
                                             <Utensils className="mr-2" size={20} />
@@ -122,6 +151,27 @@ export default async function DistrictPage({ params }: { params: { name: string 
                                             {foodSpot.location}
                                         </p>
                                     </CardContent>
+                                    <CardFooter className="flex flex-col items-start gap-2">
+                                        <div className="flex items-center w-full justify-between">
+                                            <ReviewsModal
+                                                itemId={foodSpot._id}
+                                                itemType="foodSpot"
+                                                itemName={foodSpot.name}
+                                            >
+                                                <div className="flex items-center">
+                                                    <Star className="text-yellow-400 mr-1" />
+                                                    <span>{foodSpot.averageRating.toFixed(1)} ({foodSpot.reviewCount} reviews)</span>
+                                                </div>
+                                            </ReviewsModal>
+
+                                            <ReviewModal
+                                                itemId={foodSpot._id}
+                                                itemType="foodSpot"
+                                                itemName={foodSpot.name}
+                                                districtId={districtData._id}
+                                            />
+                                        </div>
+                                    </CardFooter>
                                 </Card>
                             ))}
                         </div>

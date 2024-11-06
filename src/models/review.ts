@@ -2,9 +2,10 @@ import mongoose, { Schema, Document } from 'mongoose';
 
 export interface IReview extends Document {
     user: mongoose.Types.ObjectId;
+    username: string;
     rating: number;
     comment: string;
-    itemType: 'foodspot' | 'destination' | 'guide';
+    itemType: 'foodSpot' | 'destination' | 'guide';
     itemId: mongoose.Types.ObjectId;
     districtId?: mongoose.Types.ObjectId;
     status: 'pending' | 'approved' | 'rejected';
@@ -16,6 +17,10 @@ const ReviewSchema = new Schema<IReview>({
     user: {
         type: Schema.Types.ObjectId,
         ref: 'User',
+        required: true
+    },
+    username: {
+        type: String,
         required: true
     },
     rating: {
@@ -31,7 +36,7 @@ const ReviewSchema = new Schema<IReview>({
     },
     itemType: {
         type: String,
-        enum: ['foodspot', 'destination', 'guide'],
+        enum: ['foodSpot', 'destination', 'guide'],
         required: true
     },
     itemId: {

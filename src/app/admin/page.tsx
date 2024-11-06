@@ -16,7 +16,7 @@ export default async function AdminDashboardPage() {
     getAllApprovedGuides(),
     getAllDistricts()
   ])
-  console.log(initialDistricts)
+  
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <AdminDashboard stats={stats} initialPendingGuides={pending} initialAllGuides={all} initialDistricts={initialDistricts} />
