@@ -107,7 +107,7 @@ export default async function DistrictPage({ params }: { params: { name: string 
                     <TabsContent value="destinations">
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                             {districtData.destinations.map((destination: Destination) => (
-                                <Card key={destination._id} className="overflow-hidden">
+                                <Card key={destination._id} className="overflow-hidden hover:shadow-lg transition-shadow duration-300">
                                     <Image
                                         src={destination.imageUrl || '/placeholder.svg'}
                                         alt={destination.name}
@@ -149,7 +149,7 @@ export default async function DistrictPage({ params }: { params: { name: string 
                     <TabsContent value="food">
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                             {districtData.foodSpots.map((foodSpot: FoodSpot) => (
-                                <Card key={foodSpot._id}>
+                                <Card key={foodSpot._id} className="hover:shadow-lg transition-shadow duration-300">
                                     <CardHeader>
                                         <CardTitle className="flex items-center ">
                                             <Utensils className="mr-2" size={20} />
@@ -158,7 +158,7 @@ export default async function DistrictPage({ params }: { params: { name: string 
                                         <CardDescription>{foodSpot.cuisine}</CardDescription>
                                     </CardHeader>
                                     <CardContent>
-                                        <p className="mb-2">{foodSpot.description}</p>
+                                        <p className="mb-2 line-clamp-3">{foodSpot.description}</p>
                                         <p className="flex items-center text-muted-foreground">
                                             <MapPin className="mr-2" size={16} />
                                             {foodSpot.location}
@@ -176,7 +176,6 @@ export default async function DistrictPage({ params }: { params: { name: string 
                                                     <span>{foodSpot.averageRating.toFixed(1)} ({foodSpot.reviewCount} reviews)</span>
                                                 </div>
                                             </ReviewsModal>
-
                                             <ReviewModal
                                                 itemId={foodSpot._id}
                                                 itemType="foodSpot"
@@ -192,7 +191,7 @@ export default async function DistrictPage({ params }: { params: { name: string 
                     <TabsContent value="events">
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                             {districtData.events.map((event: Event, index: number) => (
-                                <Card key={index}>
+                                <Card key={index} className='hover:shadow-lg transition-shadow duration-300'>
                                     <CardHeader>
                                         <CardTitle className="flex items-center">
                                             <Calendar className="mr-2" size={20} />
@@ -220,14 +219,14 @@ export default async function DistrictPage({ params }: { params: { name: string 
                     <TabsContent value="hotels">
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                             {districtData.hotels.map((hotel: Hotel) => (
-                                <Card key={hotel._id}>
+                                <Card key={hotel._id} className='hover:shadow-lg transition-shadow duration-300'>
                                     <CardHeader>
                                         <CardTitle className="flex items-center capitalize">
                                             <Hotel className="mr-2 " size={20} />
                                             {hotel.name}
                                         </CardTitle>
                                         <CardDescription>
-                                            ${hotel.price} per night
+                                            ₹{hotel.price} per night
                                         </CardDescription>
                                     </CardHeader>
                                     <CardContent>

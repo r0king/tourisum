@@ -4,6 +4,13 @@ import type { NextAuthOptions } from "next-auth";
 import credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 
+interface ExtendedUser {
+    id: string;
+    email: string;
+    name: string;
+    role: string;
+}
+
 export const authOptions: NextAuthOptions = {
     providers: [
         credentials({
@@ -27,12 +34,36 @@ export const authOptions: NextAuthOptions = {
                 );
 
                 if (!passwordMatch) throw new Error("Wrong Password");
-                return user;
+                return {
+                    id: user._id.toString(),
+                    email: user.email,
+                    name: user.name,
+                    role: user.role || (user.status === 'active' ? 'guide' : 'pending_guide')
+                }
             },
         }),
     ],
+    callbacks: {
+        async jwt({ token, user }) {
+            if (user) {
+                token.id = (user as ExtendedUser).id
+                token.role = (user as ExtendedUser).role
+            }
+            return token
+        },
+        async session({ session, token }) {
+            if (session?.user) {
+                (session.user as ExtendedUser).id = token.id as string
+                (session.user as ExtendedUser).role = token.role as string
+            }
+            return session
+        },
+    },
+    pages: {
+        signIn: '/login',
+    },
     session: {
         strategy: "jwt",
-    }
-};
+    },
 
+};
