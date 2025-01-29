@@ -1,11 +1,11 @@
 "use client";
 import { FormEvent, useState } from "react";
-import { signIn } from "next-auth/react";
+import { getSession, signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Button } from "../../components/ui/button";
+import { Input } from "../../components/ui/input";
+import { Label } from "../../components/ui/label";
 import {
   Card,
   CardContent,
@@ -13,10 +13,18 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from "../../components/ui/card";
 import { Leaf } from "lucide-react";
+import React from "react";
 
-export default function Login() {
+interface ExtendedUser {
+  id: string;
+  email: string;
+  name: string;
+  role: string;
+}
+
+export default function GuideSignin() {
   const [error, setError] = useState("");
   const router = useRouter();
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -26,12 +34,16 @@ export default function Login() {
       email: formData.get("email"),
       password: formData.get("password"),
       redirect: false,
+      role: 'guide'
     });
     if (res?.error) {
       setError(res.error as string);
     }
     if (res?.ok) {
-      return router.push("/");
+      const session = await getSession();
+      const user = session?.user as ExtendedUser;
+      
+      return router.push(`/guide/${user.id}`);
     }
   };
   return (
@@ -85,7 +97,7 @@ export default function Login() {
             </Button>
             <div className="text-sm text-center text-muted-foreground">
               Don&apos;t have an account?{" "}
-              <Link href="/register" className="text-primary hover:underline">
+              <Link href="/apply-as-guide" className="text-primary hover:underline">
                 Sign up
               </Link>
             </div>
@@ -94,12 +106,6 @@ export default function Login() {
               className="text-sm text-center text-primary hover:underline"
             >
               Forgot your password?
-            </Link>
-            <Link
-              href="/guide-signin"
-              className="text-sm text-center text-primary hover:underline"
-            >
-              Sign in as a guide
             </Link>
           </CardFooter>
         </form>

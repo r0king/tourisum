@@ -78,6 +78,10 @@ export default async function DistrictPage({ params }: { params: { name: string 
     return (
         <div className="bg-background text-foreground">
             <header className="relative h-screen max-h-[720px] overflow-hidden">
+            <Button variant="outline" className="flex-1 mr-2">
+            {/* <CheckCircle className="w-4 h-4 mr-2" /> */}
+            Accept
+          </Button>
                 <Image
                     src={districtData.destinations[0]?.imageUrl || '/images/district.jpg'}
                     alt={districtData.name}

@@ -9,11 +9,13 @@ export async function getPendingGuides() {
   const guides = await Guide.find({ status: 'pending' }).select('-password')
   return JSON.parse(JSON.stringify(guides))
 }
+
 export async function getAllApprovedGuides() {
   await connectDB()
   const guides = await Guide.find({ status: { $ne: 'pending' } }).select('-password')
   return JSON.parse(JSON.stringify(guides))
 }
+
 export async function approveGuide(guideId: string) {
   await connectDB()
   await Guide.findByIdAndUpdate(guideId, { status: 'active' })
@@ -36,4 +38,10 @@ export async function deleteGuide(guideId: string) {
   await connectDB()
   await Guide.findByIdAndDelete(guideId)
   revalidatePath('/admin')
+}
+
+export async function getGuideById(id: string) {
+  await connectDB()
+  const guide = await Guide.findById(id).select('-password')
+  return JSON.parse(JSON.stringify(guide))
 }

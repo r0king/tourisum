@@ -3,6 +3,7 @@ import User from "@/models/user";
 import type { NextAuthOptions } from "next-auth";
 import credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
+import Guide from "@/models/guide";
 
 interface ExtendedUser {
     id: string;
@@ -19,10 +20,15 @@ export const authOptions: NextAuthOptions = {
             credentials: {
                 email: { label: "Email", type: "text" },
                 password: { label: "Password", type: "password" },
+                role: { label: "Role", type: "text" }
             },
             async authorize(credentials) {
                 await connectDB();
-                const user = await User.findOne({
+                console.log(credentials)
+
+                const collection = credentials?.role === 'guide' ? Guide : User;
+
+                const user = await collection.findOne({
                     email: credentials?.email,
                 }).select("+password");
 

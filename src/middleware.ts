@@ -45,5 +45,5 @@ export default withAuth(
 
 // Configure protected routes
 export const config = {
-  matcher: ["/admin/:path*", "/guide/:path*", "/user/dashboard/:path*", "/apply-as-guide/:path*"],
+  matcher: ["/admin/:path*", "/guide/:path*", "/user/dashboard/:path*"],
 }

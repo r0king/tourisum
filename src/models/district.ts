@@ -1,6 +1,6 @@
 import mongoose, { Schema, Document, Types } from 'mongoose';
 
-export interface IDestination {
+export interface IDestination {   
     _id: Types.ObjectId;
     name: string;
     type: string;
@@ -11,7 +11,8 @@ export interface IDestination {
     status: 'pending' | 'approved' | 'rejected';
 }
 
-interface IFoodSpot {
+export interface IFoodSpot {
+    _id: Types.ObjectId;
     name: string;
     cuisine: string;
     description: string;
@@ -21,7 +22,8 @@ interface IFoodSpot {
     status: 'pending' | 'approved' | 'rejected';
 }
 
-interface IEvent {
+export interface IEvent {
+    _id: Types.ObjectId;
     name: string;
     date: Date;
     description: string;
