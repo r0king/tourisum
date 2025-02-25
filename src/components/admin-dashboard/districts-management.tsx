@@ -81,6 +81,7 @@ export function DistrictsManagement({ initialDistricts }: DistrictsManagementPro
                             const districtData = {
                                 name: formData.get('name') as string,
                                 description: formData.get('description') as string,
+                                pincode: formData.get('pincode') as string,
                             }
                             handleCreateDistrict(districtData)
                         }}>
@@ -92,6 +93,10 @@ export function DistrictsManagement({ initialDistricts }: DistrictsManagementPro
                                 <div className="grid gap-2">
                                     <Label htmlFor="description">Description</Label>
                                     <Textarea id="description" name="description" required />
+                                </div>
+                                <div className="grid gap-2">
+                                    <Label htmlFor="pincode">Pincode</Label>
+                                    <Input id="pincode" name="pincode" required />
                                 </div>
                             </div>
                             <div className="flex justify-end">
@@ -136,17 +141,22 @@ export function DistrictsManagement({ initialDistricts }: DistrictsManagementPro
                                             const districtData = {
                                                 name: formData.get('name') as string,
                                                 description: formData.get('description') as string,
+                                                pincode: formData.get('pincode') as string,
                                             }
                                             handleUpdateDistrict(district._id?.toString() ?? '', districtData)
                                         }}>
                                             <div className="grid gap-4 py-4">
                                                 <div className="grid gap-2">
                                                     <Label htmlFor="name">Name</Label>
-                                                    <Input id="name" name="name" defaultValue={district.name} required />
+                                                    <Input id="name" name="name" defaultValue={district.name}  />
                                                 </div>
                                                 <div className="grid gap-2">
                                                     <Label htmlFor="description">Description</Label>
-                                                    <Textarea id="description" name="description" defaultValue={district.description} required />
+                                                    <Textarea id="description" name="description" defaultValue={district.description}  />
+                                                </div>
+                                                <div className="grid gap-2">
+                                                    <Label htmlFor="pincode">Pincode</Label>
+                                                    <Input id="pincode" name="pincode" defaultValue={district.pincode}  />
                                                 </div>
                                             </div>
                                             <div className="flex justify-end">

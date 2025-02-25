@@ -47,6 +47,7 @@ export interface IDistrict extends Document {
     foodSpots: IFoodSpot[];
     events: IEvent[];
     hotels: IHotel[];
+    pincode: string;
 }
 
 const DestinationSchema = new Schema({
@@ -109,7 +110,8 @@ const DistrictSchema = new Schema<IDistrict>({
     destinations: [DestinationSchema],
     foodSpots: [FoodSpotSchema],
     events: [EventSchema],
-    hotels: [HotelSchema]
+    hotels: [HotelSchema],
+    pincode: String,
 });
 
 const District = mongoose.models?.District || mongoose.model<IDistrict>('District', DistrictSchema);

@@ -16,14 +16,16 @@ export async function createDistrict(districtData: Partial<IDistrict>) {
   const district = new District(districtData)
   await district.save()
   revalidatePath('/admin')
+  revalidatePath('/district')
 }
+
 
 export async function updateDistrict(districtId: string, districtData: Partial<IDistrict>) {
   await connectDB()
   await District.findByIdAndUpdate(districtId, districtData)
   revalidatePath('/admin')
+  revalidatePath('/district')
 }
-
 export async function deleteDistrict(districtId: string) {
   await connectDB()
   await District.findByIdAndDelete(districtId)
