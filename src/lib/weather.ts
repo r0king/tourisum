@@ -31,7 +31,7 @@ async function getCoordinatesByPincode(pincode: string, countryCode: string): Pr
 }
 
 async function getCurrentWeather(lat: number, lon: number): Promise<any | null> {
-    const weatherApiUrl = `https://pro.openweathermap.org/data/2.5/forecast/climate?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`; // Forecast API
+    const weatherApiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`; // Units in Celsius
     console.log(weatherApiUrl);
     
     try {
