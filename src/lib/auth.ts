@@ -5,7 +5,7 @@ import credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import Guide from "@/models/guide";
 
-interface ExtendedUser {
+export interface ExtendedUser {
     id: string;
     email: string;
     name: string;

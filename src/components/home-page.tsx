@@ -29,17 +29,25 @@ export default function HomePage({ authStatus, router }: HomePageProps) {
   const renderAuthButton = () => {
     if (authStatus === "authenticated") {
       return (
-        <Button 
-          variant="outline"
-          onClick={() => {
-            signOut({ redirect: false }).then(() => {
-              router.push("/")
-            })
-          }}
-        >
-          Sign Out
-        </Button>
-      )
+        <div className="flex gap-4">
+          {/* Profile Link */}
+          <Link href="/profile">
+            <Button variant="default">Profile</Button>
+          </Link>
+  
+          {/* Sign Out Button */}
+          <Button
+            variant="outline"
+            onClick={() => {
+              signOut({ redirect: false }).then(() => {
+                router.push("/");
+              });
+            }}
+          >
+            Sign Out
+          </Button>
+        </div>
+      );
     } else if (authStatus === "loading") {
       return <span className="text-sm text-muted-foreground">Loading...</span>
     } else {
