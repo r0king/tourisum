@@ -12,6 +12,7 @@ import { toast } from "react-hot-toast"
 interface BookingFormProps {
   district: string
   unavailableDates: Date[] // Pass unavailable dates as props
+  className?: string
 }
 
 export default function BookingForm({ district, unavailableDates }: BookingFormProps) {
@@ -58,20 +59,20 @@ export default function BookingForm({ district, unavailableDates }: BookingFormP
   }
 
   return (
-    <Card>
+    <Card className="p-6 rounded-lg">
       <form onSubmit={handleSubmit}>
         <CardContent className="space-y-4">
           <div>
-            <Label htmlFor="name">Name</Label>
-            <Input id="name" value={name} onChange={(e) => setName(e.target.value)} required />
+            <Label htmlFor="name" className="font-semibold text-gray-700">Name</Label>
+            <Input id="name" className="border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" value={name} onChange={(e) => setName(e.target.value)} required />
           </div>
           <div>
-            <Label htmlFor="email">Email</Label>
-            <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+            <Label htmlFor="email" className="font-semibold text-gray-700">Email</Label>
+            <Input id="email" type="email" className="border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" value={email} onChange={(e) => setEmail(e.target.value)} required />
           </div>
           {/* Booking Calendar Component */}
           <div>
-            <Label>Select Your Booking Dates</Label>
+            <Label className="font-semibold text-gray-700">Select Your Booking Dates</Label>
             <BookingCalendar unavailableDates={unavailableDates} onDateChange={setSelectedRange} />
           </div>
           {/* Display Selected Dates */}

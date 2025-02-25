@@ -13,6 +13,7 @@ interface CalendarProps {
   disabled?: (date: Date) => boolean;
 }
 
+export type { CalendarValue, CalendarProps };
 export function Calendar({ selected, onChange, selectRange = false, disabled }: CalendarProps) {
   return (
     <HeadlessCalendar

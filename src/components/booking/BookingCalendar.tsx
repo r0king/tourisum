@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { Calendar } from "@/components/ui/calendar"
+import { CalendarValue, CalendarProps } from "@/components/ui/calendar"
 import { Card, CardContent } from "@/components/ui/card"
 
 interface BookingCalendarProps {
@@ -44,20 +45,22 @@ export default function BookingCalendar({ unavailableDates, onDateChange }: Book
 
   return (
     <Card>
-      <CardContent>
+      
         <Calendar
           selected={selectedRange}
-          onChange={handleDateChange}
+          onChange={(dateRange) => {
+            setSelectedRange(dateRange as [Date, Date] | null);
+            onDateChange(dateRange as [Date, Date] | null); // Call prop to update parent state
+          }}
           selectRange
           disabled={isDateUnavailable} // Disable unavailable dates
-          minDate={today} // Disable past dates globally
         />
         {selectedRange && (
           <p className="mt-2 text-sm text-gray-600">
             Selected: {selectedRange[0].toDateString()} - {selectedRange[1].toDateString()}
           </p>
         )}
-      </CardContent>
+      
     </Card>
   )
 }
