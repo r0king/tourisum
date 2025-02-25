@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation'
+import WeatherDisplay from '@/components/WeatherDisplay';
 import Link from 'next/link'
 import Image from 'next/image'
 import { connectDB } from "@/lib/mongodb"
@@ -102,6 +103,8 @@ export default async function DistrictPage({ params }: { params: { name: string 
                     <ChevronDown className="text-white animate-bounce" size={48} />
                 </div>
             </header>
+            
+            <WeatherDisplay districtData={districtData} />
 
             <main className="container mx-auto px-4 py-12">
                 <Tabs defaultValue="destinations" className="w-full">

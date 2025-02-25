@@ -1,5 +1,7 @@
 'use client'
 
+import WeatherDisplay from './WeatherDisplay';
+
 import Link from 'next/link'
 import Image from 'next/image'
 import { signOut } from "next-auth/react"
