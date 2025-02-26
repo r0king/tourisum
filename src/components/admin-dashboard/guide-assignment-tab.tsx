@@ -134,6 +134,7 @@ const GuideAssignmentTab = () => {
                             <TableHead>Booking ID</TableHead>
                             <TableHead>District</TableHead>
                             <TableHead>Requested Date</TableHead>
+                            <TableHead>User Email</TableHead>
                             <TableHead>Actions</TableHead>
                         </TableRow>
                     </TableHeader>
@@ -143,6 +144,7 @@ const GuideAssignmentTab = () => {
                                 <TableCell>{booking._id?.toString()}</TableCell>
                                 <TableCell>{booking.district}</TableCell>
                                 <TableCell>{booking.bookingDates && booking.bookingDates[0] ? new Date(booking.bookingDates[0]).toLocaleDateString() : 'No date requested'}</TableCell>
+                                <TableCell>{booking.email}</TableCell>
                                 <TableCell>
                                     <button
                                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
