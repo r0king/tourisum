@@ -13,10 +13,11 @@ export async function GET(req: NextRequest, res: NextResponse) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    const userId = req.nextUrl.searchParams.get("userId");
-    if (!userId) {
-      return NextResponse.json({ message: "UserId is required" }, { status: 400 });
-    }
+    // Removed userId parameter handling - not needed
+    // const userId = req.nextUrl.searchParams.get("userId");
+    // if (!userId) {
+    //   return NextResponse.json({ message: "UserId is required" }, { status: 400 });
+    // }
 
     const userEmail = req.nextUrl.searchParams.get("email"); // Get email from search params
     if (!userEmail) {
