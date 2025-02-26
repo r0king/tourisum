@@ -1,8 +1,7 @@
 'use server';
 
 import nodemailer from 'nodemailer';
-import { renderEmailTemplate } from '@/lib/email-templates';
-import { TemplateData } from '@/lib/email-templates';
+import { renderEmailTemplate, TemplateData } from '@/lib/email-templates';
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -23,7 +22,7 @@ export async function sendEmail(
     await transporter.sendMail({
       from: process.env.GMAIL_USER,
       to: recipient,
-      subject: getEmailSubject(templateType),
+      subject: getEmailSubject(templateType) as string, // Type assertion here
       html: htmlContent,
     });
 
@@ -34,10 +33,11 @@ export async function sendEmail(
   }
 }
 
-const getEmailSubject = (templateType: keyof TemplateData): string => {
+const getEmailSubject = (templateType: keyof TemplateData): string | undefined => { // Updated return type
   return {
     SUCCESS: 'Booking Confirmation',
     CONFIRMATION: 'Booking Receipt',
-    FAILED: 'Booking Failed'
+    FAILED: 'Booking Failed',
+    GUIDE_ASSIGNED: 'Guide Assigned to Booking' // Added case for GUIDE_ASSIGNED
   }[templateType];
 };

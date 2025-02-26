@@ -14,10 +14,11 @@ import { getPendingBookings, assignGuideToBooking } from '@/actions/booking-acti
 import { useEffect, useState } from 'react';
 import { IBooking } from '@/models/booking';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from "@/components/ui/dialog"
-import { getAvailableGuides } from '@/actions/guide-actions';
+import { getAvailableGuides, getGuideById } from '@/actions/guide-actions';
 import { IGuide } from '@/models/guide';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
+import { sendEmail } from '@/app/actions/send-email'; // Import sendEmail action
 
 const GuideAssignmentTab = () => {
     const [pendingBookings, setPendingBookings] = useState<IBooking[]>([]);
@@ -74,6 +75,28 @@ const GuideAssignmentTab = () => {
             setAssignmentLoading(true); // Start assignment loading
             try {
                 await assignGuideToBooking(selectedBooking._id!.toString(), selectedGuideId);
+
+                // Fetch guide details for email
+                const guideDetails = await getGuideById(selectedGuideId);
+                if (guideDetails) {
+                    // Send confirmation email
+                    await sendEmail(
+                        'GUIDE_ASSIGNED',
+                        selectedBooking.email,
+                        {
+                            userName: selectedBooking.name,
+                            bookingId: selectedBooking._id!.toString(),
+                            guideName: guideDetails.name,
+                            guideEmail: guideDetails.email,
+                            guidePhone: guideDetails.phone,
+                            guideAbout: guideDetails.about,
+                            guideLanguages: guideDetails.languages,
+                            guideSpecialties: guideDetails.specialties,
+                        }
+                    );
+                }
+
+
                 setOpenDialog(false);
                 setAssignmentLoading(false); // End assignment loading
                 // Update pending bookings list after successful assignment

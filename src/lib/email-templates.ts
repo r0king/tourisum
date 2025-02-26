@@ -14,6 +14,16 @@ export type TemplateData = {
     errorMessage: string;
     retryLink: string;
   };
+  GUIDE_ASSIGNED: {
+    userName: string;
+    bookingId: string;
+    guideName: string;
+    guideEmail: string;
+    guidePhone: string;
+    guideAbout: string;
+    guideLanguages: string[];
+    guideSpecialties: string[];
+  };
 };
 
 export const renderEmailTemplate = <T extends keyof TemplateData>(
@@ -57,6 +67,26 @@ export const renderEmailTemplate = <T extends keyof TemplateData>(
             <p>Dear ${userName},</p>
             <p>Error: ${errorMessage}</p>
             <a href="${retryLink}">Click here to retry</a>
+          </body>
+        </html>
+      `,
+    GUIDE_ASSIGNED: ({ userName, bookingId, guideName, guideEmail, guidePhone, guideAbout, guideLanguages, guideSpecialties }: TemplateData["GUIDE_ASSIGNED"]) => `
+        <!DOCTYPE html>
+        <html>
+          <body>
+            <h1>Guide Assigned to Your Booking! </h1>
+            <p>Dear ${userName},</p>
+            <p>A guide has been assigned to your booking (ID: ${bookingId}).</p>
+            <p>Your assigned guide is: ${guideName}.</p>
+            <p>Contact your guide:</p>
+            <ul>
+                <li>Email: <a href="mailto:${guideEmail}">${guideEmail}</a></li>
+                <li>Phone: ${guidePhone}</li>
+            </ul>
+            <p>About your guide: ${guideAbout}</p>
+            <p>Languages: ${guideLanguages.join(', ')}</p>
+            <p>Specialties: ${guideSpecialties.join(', ')}</p>
+            <p>We are excited for you to explore!</p>
           </body>
         </html>
       `,
