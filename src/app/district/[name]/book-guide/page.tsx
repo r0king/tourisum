@@ -14,15 +14,13 @@ export default async function BookingPage({
   const unavailableDates = await getUnavailableDates(params.name);
 
   return (
-    <div className="container mx-auto py-8 px-4">
-      <div className="mb-6">
-        <Link href={`/district/${params.name}`}>
-          <Button variant="ghost" size="sm" className="mb-2">
-            <ChevronLeft className="mr-1 h-4 w-4" />
-            Back to {params.name}
-          </Button>
-        </Link>
-      </div>
+    <div className="container mx-auto py-8 px-4 min-h-screen">
+      <Link href={`/district/${params.name}`}>
+        <Button variant="ghost" size="sm" className="mb-2">
+          <ChevronLeft className="mr-1 h-4 w-4" />
+          Back to {params.name}
+        </Button>
+      </Link>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2">
