@@ -1,14 +1,14 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardFooter } from "@/components/ui/card"
-import BookingCalendar from "@/components/booking/BookingCalendar"
-import { toast } from "react-hot-toast"
-
+import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import BookingCalendar from "@/components/booking/BookingCalendar";
+import { toast } from "react-hot-toast";
+import { sendEmail } from "@/app/actions/send-email";
 interface BookingFormProps {
   district: string
   unavailableDates: Date[] // Pass unavailable dates as props
@@ -44,8 +44,17 @@ export default function BookingForm({ district, unavailableDates }: BookingFormP
       })
 
       if (response.ok) {
-        toast.success("Booking confirmed! You will be informed later.", { duration: 3000 })
+        const booking = await response.json()
         
+        toast.success("Booking confirmed! You will be informed later.", { duration: 3000 });
+        
+        // Send booking confirmation email
+        await sendEmail('SUCCESS', email, {
+          userName: name,
+          bookingId: booking.bookingId, // You might want to generate or get a real booking ID
+          date: selectedRange ? `${selectedRange[0].toDateString()} - ${selectedRange[1].toDateString()}` : 'N/A'
+        });
+
         // Redirect after 2 seconds
         setTimeout(() => {
           router.push(`/district/${district}`)

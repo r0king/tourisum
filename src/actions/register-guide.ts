@@ -4,6 +4,7 @@ import { connectDB } from "@/lib/mongodb";
 import Guide from "@/models/guide"
 import bcrypt from "bcryptjs";
 import { redirect } from "next/navigation";
+import { sendEmail } from '@/app/actions/send-email';
 
 export const registerGuide = async (values: {
   name: string,
@@ -45,6 +46,12 @@ export const registerGuide = async (values: {
 
     await guide.save();
 
+    // Send guide signup confirmation email
+    await sendEmail('CONFIRMATION', email, { // Using 'CONFIRMATION' template, adjust if needed
+      userName: name,
+      bookingId: 'GUIDE_SIGNUP', // Placeholder, adjust as needed
+      date: new Date().toDateString() // Signup date
+    });
 
   } catch (e) {
     console.error("Error registering guide:", e);

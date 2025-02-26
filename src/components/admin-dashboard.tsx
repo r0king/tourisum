@@ -34,6 +34,7 @@ import {
 import { getPendingGuides, getAllApprovedGuides, approveGuide, updateGuideStatus, updateGuideInfo, deleteGuide } from '@/actions/guide-actions'
 import { useTransition } from 'react'
 import { IGuide } from '@/models/guide'
+import { sendEmail } from '@/app/actions/send-email';
 import { getDashboardStats } from '@/actions/dashboard-actions'
 import { DashBoardOverView } from '@/components/admin-dashboard/dashboard-overview'
 import { DistrictsManagement } from './admin-dashboard/districts-management'
@@ -61,8 +62,18 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
             await approveGuide(guideId)
             const updatedPending = await getPendingGuides()
             const updatedAll = await getAllApprovedGuides()
-            setPendingGuides(updatedPending)
-            setAllGuides(updatedAll)
+            setPendingGuides(updatedPending);
+            setAllGuides(updatedAll);
+
+            // Send guide approval email
+            const guide = pendingGuides.find(g => g._id.toString() === guideId);
+            if (guide) {
+                await sendEmail('CONFIRMATION', guide.email, { // Assuming 'CONFIRMATION' template is suitable, or create a new one
+                    userName: guide.name,
+                    bookingId: 'GUIDE_APPROVAL', // Placeholder, adjust as needed
+                    date: new Date().toDateString() // Approval date
+                });
+            }
         })
     }
 
