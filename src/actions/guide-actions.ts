@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { connectDB } from "@/lib/mongodb"
 import Guide, { IGuide } from "@/models/guide"
+import { IBooking } from '@/models/booking';
 
 export async function getPendingGuides() {
   await connectDB()
@@ -44,4 +45,13 @@ export async function getGuideById(id: string) {
   await connectDB()
   const guide = await Guide.findById(id).select('-password')
   return JSON.parse(JSON.stringify(guide))
+}
+
+export async function getAvailableGuides(district: string) {
+  await connectDB();
+  const guides = await Guide.find({
+    location: district,
+    status: 'active'
+  }).select('-password');
+  return JSON.parse(JSON.stringify(guides));
 }
