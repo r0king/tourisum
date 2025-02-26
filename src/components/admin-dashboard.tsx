@@ -39,6 +39,7 @@ import { getDashboardStats } from '@/actions/dashboard-actions'
 import { DashBoardOverView } from '@/components/admin-dashboard/dashboard-overview'
 import { DistrictsManagement } from './admin-dashboard/districts-management'
 import { getAllDistricts } from '@/actions/district-actions'
+import GuideAssignmentTab from './admin-dashboard/guide-assignment-tab'
 
 interface AdminDashboardProps {
     stats: Awaited<ReturnType<typeof getDashboardStats>>;
@@ -115,7 +116,12 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
                         <TabsTrigger value="overview">Overview</TabsTrigger>
                         <TabsTrigger value="guides">Guides</TabsTrigger>
                         <TabsTrigger value="districts">Districts</TabsTrigger>
+                        <TabsTrigger value="guide-assignment">Guide Assignment</TabsTrigger>
                     </TabsList>
+
+                    <TabsContent value="guide-assignment">
+                        <GuideAssignmentTab />
+                    </TabsContent>
 
                     <TabsContent value="overview">
                         {dashboardStats && (
