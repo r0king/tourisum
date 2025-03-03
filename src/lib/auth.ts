@@ -24,7 +24,6 @@ export const authOptions: NextAuthOptions = {
             },
             async authorize(credentials) {
                 await connectDB();
-                console.log(credentials)
 
                 const collection = credentials?.role === 'guide' ? Guide : User;
 

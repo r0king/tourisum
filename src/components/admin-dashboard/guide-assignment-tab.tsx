@@ -36,7 +36,6 @@ const GuideAssignmentTab = () => {
         const fetchBookings = async () => {
             try {
                 const bookings = await getPendingBookings();
-                console.log("Pending bookings fetched:", bookings);
                 setPendingBookings(bookings);
                 setLoading(false);
             } catch (err: any) {

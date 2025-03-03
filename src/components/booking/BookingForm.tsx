@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import BookingCalendar from "@/components/booking/BookingCalendar";
-import { toast } from "react-hot-toast";
+import { toast } from "react-hot-toast"; // Import toast
 import { sendEmail } from "@/app/actions/send-email";
 
 interface BookingFormProps {
@@ -46,51 +46,12 @@ export default function BookingForm({
       return;
     }
 
-    setIsPending(true);
+    const startDate = selectedRange[0].toISOString();
+    const endDate = selectedRange[1].toISOString();
 
-    try {
-      const response = await fetch("/api/bookings", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name,
-          email,
-          bookingDates: selectedRange,
-          district,
-        }),
-      });
-
-      if (response.ok) {
-        const booking = await response.json();
-
-        toast.success("Booking confirmed! You will be informed later.", {
-          duration: 3000,
-        });
-
-        // Send booking confirmation email
-        await sendEmail("SUCCESS", email, {
-          userName: name,
-          bookingId: booking.bookingId,
-          date: selectedRange
-            ? `${selectedRange[0].toDateString()} - ${selectedRange[1].toDateString()}`
-            : "N/A",
-        });
-
-        // Redirect after 2 seconds
-        setTimeout(() => {
-          router.push(`/district/${district}`);
-        }, 2000);
-      } else {
-        toast.error("Booking failed. Please try again.");
-      }
-    } catch (error) {
-      console.error("Error submitting booking:", error);
-      toast.error("Something went wrong. Please try again later.");
-    } finally {
-      setIsPending(false);
-    }
+    router.push(
+      `/booking-confirmation?name=${name}&email=${email}&startDate=${startDate}&endDate=${endDate}&district=${district}`
+    );
   };
 
   const formatDate = (date: Date) => {

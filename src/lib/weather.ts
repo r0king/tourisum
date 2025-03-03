@@ -4,13 +4,11 @@ const WEATHER_CACHE_KEY = 'weatherData';
 const CACHE_EXPIRY_TIME = 30 * 60 * 1000; // 30 minutes
 
 async function getDistrictPincode(districtData: any): Promise<string | null> {
-    console.log("districtData", districtData);
     return districtData?.pincode || null;
 }
 
 async function getCoordinatesByPincode(pincode: string, countryCode: string): Promise<{ lat: number, lon: number } | null> {
     const geoApiUrl = `http://api.openweathermap.org/geo/1.0/zip?zip=${pincode},${countryCode}&appid=${API_KEY}`;
-    console.log("geoApiUrl", geoApiUrl);
     
     try {
         const response = await fetch(geoApiUrl);
@@ -32,7 +30,6 @@ async function getCoordinatesByPincode(pincode: string, countryCode: string): Pr
 
 async function getCurrentWeather(lat: number, lon: number): Promise<any | null> {
     const weatherApiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`; // Units in Celsius
-    console.log(weatherApiUrl);
     
     try {
         const response = await fetch(weatherApiUrl);

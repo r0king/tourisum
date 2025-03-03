@@ -39,7 +39,6 @@ const WeatherDisplay: React.FC<WeatherDisplayProps> = ({ districtData }) => {
                 }
                 
                 const weather = await getCurrentWeather(coordinates.lat, coordinates.lon);
-                console.log(weather);
                 if (weather) {
                     setWeatherData(weather);
                     cacheWeatherData(weather); // Cache the fetched data

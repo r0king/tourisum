@@ -18,7 +18,6 @@ export async function GET(request: NextRequest) {
       .sort({ createdAt: -1 })
       .populate('username')
       .lean()
-    console.log(reviews);
     
     return NextResponse.json({ reviews })
   } catch (error) {
