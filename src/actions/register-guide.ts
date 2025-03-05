@@ -15,9 +15,11 @@ export const registerGuide = async (values: {
   languages: string[],
   experience: number,
   specialties: string[],
-  about: string
+  about: string,
+  idType: string,
+  googleDriveUrl: string
 }) => {
-  const { name, email, password, phone, location, languages, experience, specialties, about } = values;
+  const { name, email, password, phone, location, languages, experience, specialties, about, idType, googleDriveUrl } = values;
 
   try {
     await connectDB();
@@ -41,16 +43,17 @@ export const registerGuide = async (values: {
       experience,
       specialties,
       about,
+      idType,
+      googleDriveUrl,
       status: 'pending'
     });
 
     await guide.save();
 
-    // Send guide signup confirmation email
-    await sendEmail('CONFIRMATION', email, { // Using 'CONFIRMATION' template, adjust if needed
+    await sendEmail('CONFIRMATION', email, { 
       userName: name,
-      bookingId: 'GUIDE_SIGNUP', // Placeholder, adjust as needed
-      date: new Date().toDateString() // Signup date
+      bookingId: 'GUIDE_SIGNUP',
+      date: new Date().toDateString() 
     });
 
   } catch (e) {

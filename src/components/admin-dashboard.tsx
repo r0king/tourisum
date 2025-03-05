@@ -36,7 +36,7 @@ import { useTransition } from 'react'
 import { IGuide } from '@/models/guide'
 import { sendEmail } from '@/app/actions/send-email';
 import { getDashboardStats } from '@/actions/dashboard-actions'
-import { DashBoardOverView } from '@/components/admin-dashboard/dashboard-overview'
+import { DashBoardOverView } from './admin-dashboard/dashboard-overview'
 import { DistrictsManagement } from './admin-dashboard/districts-management'
 import { getAllDistricts } from '@/actions/district-actions'
 import GuideAssignmentTab from './admin-dashboard/guide-assignment-tab'
@@ -136,7 +136,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
 
                     <TabsContent value="districts">
-                        <DistrictsManagement initialDistricts={initialDistricts}/>
+                        <DistrictsManagement initialDistricts={initialDistricts} />
                     </TabsContent>
                 </Tabs>
             </main>
@@ -162,6 +162,8 @@ function AllGuides({ allGuides, handleUpdateGuideStatus, handleUpdateGuideInfo, 
                         <TableHead>Experience</TableHead>
                         <TableHead>Status</TableHead>
                         <TableHead>Actions</TableHead>
+                        <TableHead>ID Type</TableHead>
+                        <TableHead>Google Drive URL</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -220,6 +222,15 @@ function AllGuides({ allGuides, handleUpdateGuideStatus, handleUpdateGuideInfo, 
                                                     <Label htmlFor="experience" className="text-right">Experience (years)</Label>
                                                     <Input id="experience" name="experience" type="number" defaultValue={guide.experience} className="col-span-3" />
                                                 </div>
+                                                {/* New Fields */}
+                                                <div className="grid grid-cols-4 items-center gap-4">
+                                                    <Label htmlFor="idType" className="text-right">ID Type</Label>
+                                                    <Input id="idType" name="idType" defaultValue={guide.idType} className="col-span-3" />
+                                                </div>
+                                                <div className="grid grid-cols-4 items-center gap-4">
+                                                    <Label htmlFor="googleDriveUrl" className="text-right">Google Drive URL</Label>
+                                                    <Input id="googleDriveUrl" name="googleDriveUrl" type="url" defaultValue={guide.googleDriveUrl} className="col-span-3" />
+                                                </div>
                                             </div>
                                             <div className="flex justify-end">
                                                 <Button type="submit">Save changes</Button>
@@ -235,6 +246,8 @@ function AllGuides({ allGuides, handleUpdateGuideStatus, handleUpdateGuideInfo, 
                                     <Trash2 className="w-4 h-4 mr-1" /> Delete
                                 </Button>
                             </TableCell>
+                            <TableCell>{guide.idType}</TableCell>
+                            <TableCell>{guide.googleDriveUrl}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
@@ -258,6 +271,8 @@ function PendingGuides({ pendingGuides, handleApproveGuide, isPending }: { pendi
                         <TableHead>Location</TableHead>
                         <TableHead>Experience</TableHead>
                         <TableHead>Action</TableHead>
+                        <TableHead>ID Type</TableHead>
+                        <TableHead>Google Drive URL</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -276,6 +291,8 @@ function PendingGuides({ pendingGuides, handleApproveGuide, isPending }: { pendi
                                     {isPending ? 'Approving...' : 'Approve'}
                                 </Button>
                             </TableCell>
+                            <TableCell>{guide.idType}</TableCell>
+                            <TableCell>{guide.googleDriveUrl}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
@@ -283,4 +300,3 @@ function PendingGuides({ pendingGuides, handleApproveGuide, isPending }: { pendi
         </CardContent>
     </Card>
 }
-

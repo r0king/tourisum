@@ -14,6 +14,8 @@ export interface IGuide extends Document {
     status: 'pending' | 'active' | 'inactive';
     averageRating: number;
     reviewCount: number;
+    idType: 'Aadhar' | 'Passport' | 'Voter ID' | 'PAN Card';
+    googleDriveUrl: string;
 }
 
 const GuideSchema: Schema = new Schema<IGuide>({
@@ -32,7 +34,13 @@ const GuideSchema: Schema = new Schema<IGuide>({
         default: 'pending'
     },
     averageRating: { type: Number, default: 0 },
-    reviewCount: { type: Number, default: 0 }
+    reviewCount: { type: Number, default: 0 },
+    idType: {
+        type: String,
+        enum: ['Aadhar', 'Passport', 'Voter ID', 'PAN Card'],
+        required: true
+    },
+    googleDriveUrl: { type: String, required: true }
 }, {
     timestamps: true
 });

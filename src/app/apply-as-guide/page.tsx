@@ -27,6 +27,8 @@ export default function ApplyAsGuidePage() {
       experience: Number(formData.get("experience")),
       specialties: (formData.get("specialties") as string).split(','),
       about: formData.get("about") as string,
+      idType: formData.get("idType") as string,
+      googleDriveUrl: formData.get("googleDriveUrl") as string,
     });
     ref.current?.reset();
     if (r?.error) {
@@ -113,6 +115,35 @@ export default function ApplyAsGuidePage() {
               <div className="space-y-2">
                 <Label htmlFor="about">Tell us about yourself</Label>
                 <Textarea id="about" name="about" placeholder="Share your passion for Kerala and why you'd make a great guide" required />
+              </div>
+
+              {/* New Fields for ID Proof */}
+              <div className="space-y-2">
+                <Label htmlFor="idType">ID Type</Label>
+                <Select name="idType">
+                  <SelectTrigger id="idType">
+                    <SelectValue placeholder="Select ID Type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Aadhar">Aadhar</SelectItem>
+                    <SelectItem value="Passport">Passport</SelectItem>
+                    <SelectItem value="Voter ID">Voter ID</SelectItem>
+                    <SelectItem value="PAN Card">PAN Card</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="googleDriveUrl">Google Drive URL</Label>
+                <Input
+                  id="googleDriveUrl"
+                  name="googleDriveUrl"
+                  type="url"
+                  placeholder="Paste Google Drive link here"
+                  required
+                />
+                <p className="text-sm text-muted-foreground">
+                  Please ensure the link is shareable with "Anyone with the link"
+                </p>
               </div>
             </CardContent>
             <CardFooter className="flex flex-col space-y-4">
