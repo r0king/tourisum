@@ -255,48 +255,103 @@ function AllGuides({ allGuides, handleUpdateGuideStatus, handleUpdateGuideInfo, 
         </CardContent>
     </Card>
 }
+function PendingGuides({ pendingGuides, handleApproveGuide, isPending }: {
+    pendingGuides: IGuide[],
+    handleApproveGuide: (guideId: string) => void,
+    isPending: boolean
+}) {
+    const [selectedGuide, setSelectedGuide] = React.useState<IGuide | null>(null);
 
-function PendingGuides({ pendingGuides, handleApproveGuide, isPending }: { pendingGuides: IGuide[], handleApproveGuide: (guideId: string) => void, isPending: boolean }) {
-    return <Card className="mb-8">
-        <CardHeader>
-            <CardTitle>Pending Guide Approvals</CardTitle>
-            <CardDescription>Review and approve new guide applications</CardDescription>
-        </CardHeader>
-        <CardContent>
-            <Table>
-                <TableHeader>
-                    <TableRow>
-                        <TableHead>Name</TableHead>
-                        <TableHead>Email</TableHead>
-                        <TableHead>Location</TableHead>
-                        <TableHead>Experience</TableHead>
-                        <TableHead>Action</TableHead>
-                        <TableHead>ID Type</TableHead>
-                        <TableHead>Google Drive URL</TableHead>
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
-                    {pendingGuides.map((guide: IGuide) => (
-                        <TableRow key={guide._id.toString()}>
-                            <TableCell>{guide.name}</TableCell>
-                            <TableCell>{guide.email}</TableCell>
-                            <TableCell>{guide.location}</TableCell>
-                            <TableCell>{guide.experience} years</TableCell>
-                            <TableCell>
-                                <Button
-                                    size="sm"
-                                    onClick={() => handleApproveGuide(guide._id.toString())}
-                                    disabled={isPending}
-                                >
-                                    {isPending ? 'Approving...' : 'Approve'}
-                                </Button>
-                            </TableCell>
-                            <TableCell>{guide.idType}</TableCell>
-                            <TableCell>{guide.googleDriveUrl}</TableCell>
+    return (
+        <Card className="mb-8">
+            <CardHeader>
+                <CardTitle>Pending Guide Approvals</CardTitle>
+                <CardDescription>Review and approve new guide applications</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <Table>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHead>Name</TableHead>
+                            <TableHead>Email</TableHead>
+                            <TableHead>Action</TableHead>
                         </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </CardContent>
-    </Card>
+                    </TableHeader>
+                    <TableBody>
+                        {pendingGuides.map((guide: IGuide) => (
+                            <TableRow key={guide._id.toString()}>
+                                <TableCell>{guide.name}</TableCell>
+                                <TableCell>{guide.email}</TableCell>
+                                <TableCell>
+                                    <Button
+                                        size="sm"
+                                        variant="outline"
+                                        onClick={() => setSelectedGuide(guide)}
+                                    >
+                                        View
+                                    </Button>
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+
+                <Dialog open={!!selectedGuide} onOpenChange={(open) => !open && setSelectedGuide(null)}>
+                    <DialogContent className="max-w-2xl">
+                        {selectedGuide && (
+                            <>
+                                <DialogHeader>
+                                    <DialogTitle>{selectedGuide.name}'s Application</DialogTitle>
+                                </DialogHeader>
+                                <div className="grid grid-cols-2 gap-4 py-4">
+                                    <div className="space-y-2">
+                                        <p><strong>Phone:</strong> {selectedGuide.phone}</p>
+                                        <p><strong>Email:</strong> {selectedGuide.email}</p>
+                                        <p><strong>Location:</strong> {selectedGuide.location}</p>
+                                        <p><strong>Experience:</strong> {selectedGuide.experience} years</p>
+                                        <p><strong>ID Type:</strong> {selectedGuide.idType}</p>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <p><strong>Languages:</strong> {selectedGuide.languages.join(', ')}</p>
+                                        <p><strong>Specialties:</strong> {selectedGuide.specialties.join(', ')}</p>
+                                        <p><strong>Status:</strong> {selectedGuide.status}</p>
+                                        <p><strong>Google Drive URL:</strong></p>
+                                        <a
+                                            href={selectedGuide.googleDriveUrl}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="text-blue-600 hover:underline break-words"
+                                        >
+                                            {selectedGuide.googleDriveUrl}
+                                        </a>
+                                    </div>
+                                    <div className="col-span-2">
+                                        <p><strong>About:</strong></p>
+                                        <p className="mt-1 text-gray-600">{selectedGuide.about}</p>
+                                    </div>
+                                </div>
+                                <div className="flex justify-end gap-2 mt-4">
+                                    <Button
+                                        variant="outline"
+                                        onClick={() => setSelectedGuide(null)}
+                                    >
+                                        Close
+                                    </Button>
+                                    <Button
+                                        onClick={() => {
+                                            handleApproveGuide(selectedGuide._id.toString());
+                                            setSelectedGuide(null);
+                                        }}
+                                        disabled={isPending}
+                                    >
+                                        {isPending ? 'Approving...' : 'Approve'}
+                                    </Button>
+                                </div>
+                            </>
+                        )}
+                    </DialogContent>
+                </Dialog>
+            </CardContent>
+        </Card>
+    )
 }

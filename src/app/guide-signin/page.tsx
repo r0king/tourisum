@@ -16,36 +16,41 @@ import {
 } from "../../components/ui/card";
 import { Leaf } from "lucide-react";
 import React from "react";
-
-interface ExtendedUser {
-  id: string;
-  email: string;
-  name: string;
-  role: string;
-}
+import { ExtendedUser } from "@/lib/auth";
 
 export default function GuideSignin() {
-  const [error, setError] = useState("");
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
+
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+
+    if (!email || !password) {
+      setError("Email and password are required.");
+      return;
+    }
+
     const res = await signIn("credentials", {
-      email: formData.get("email"),
-      password: formData.get("password"),
+      email,
+      password,
       redirect: false,
-      role: 'guide'
+      role: "guide",
+      callbackUrl: "/guide", // Specify callback URL for guide role
     });
+
     if (res?.error) {
-      setError(res.error as string);
+      setError(res.error);
     }
     if (res?.ok) {
       const session = await getSession();
       const user = session?.user as ExtendedUser;
-      
       return router.push(`/guide/${user.id}`);
     }
   };
+
   return (
     <div className="min-h-screen bg-secondary flex flex-col justify-center items-center p-4">
       <Link
@@ -59,14 +64,14 @@ export default function GuideSignin() {
         <form onSubmit={handleSubmit}>
           <CardHeader>
             <CardTitle className="text-2xl text-center text-primary">
-              Welcome Back
+              Guide Sign In
             </CardTitle>
             <CardDescription className="text-center">
-              Sign in to your account
+              Login as a Guide to access your dashboard
             </CardDescription>
           </CardHeader>
           <CardContent>
-            {error && <div className="text-black">{error}</div>}
+            {error && <div className="text-destructive text-center">{error}</div>}
 
             <div className="space-y-4">
               <div className="space-y-2">
@@ -75,7 +80,7 @@ export default function GuideSignin() {
                   id="email"
                   name="email"
                   type="email"
-                  placeholder="Enter your email"
+                  placeholder="Enter your guide email"
                   required
                 />
               </div>
@@ -96,17 +101,17 @@ export default function GuideSignin() {
               Sign In
             </Button>
             <div className="text-sm text-center text-muted-foreground">
-              Don&apos;t have an account?{" "}
-              <Link href="/apply-as-guide" className="text-primary hover:underline">
-                Sign up
+              Not a guide?{" "}
+              <Link href="/login" className="text-primary hover:underline">
+                User Sign in
               </Link>
             </div>
-            <Link
-              href="/forgot-password"
-              className="text-sm text-center text-primary hover:underline"
-            >
-              Forgot your password?
-            </Link>
+            <div className="text-sm text-center text-muted-foreground">
+              Want to become a guide?{" "}
+              <Link href="/apply-as-guide" className="text-primary hover:underline">
+                Apply here
+              </Link>
+            </div>
           </CardFooter>
         </form>
       </Card>
