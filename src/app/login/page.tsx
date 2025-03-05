@@ -1,6 +1,6 @@
 "use client";
 import { FormEvent, useState } from "react";
-import { signIn } from "next-auth/react";
+import { signIn, getSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -16,6 +16,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Eye, EyeOff, Leaf } from "lucide-react";
+import { ExtendedUser } from "@/lib/auth"; 
 
 export default function Login() {
   const [formData, setFormData] = useState({
@@ -23,9 +24,9 @@ export default function Login() {
     password: "",
   });
 
-  const [errors, setErrors] = useState({
+  const [errors, setErrors] = useState<{ email: string; password: string | null }>({
     email: "",
-    password: "",
+    password: null,
   });
 
   const [isLoading, setIsLoading] = useState(false);
@@ -79,6 +80,8 @@ export default function Login() {
       redirect: false,
     });
 
+    console.log(res);
+
     setIsLoading(false);
 
     if (res?.error) {
@@ -92,7 +95,15 @@ export default function Login() {
       toast.success("Login successful!", {
         position: "bottom-center",
       });
-      router.push("/");
+
+      // Get session to check user role
+      const session = await getSession();
+      console.log("Session:", session); // Log session to inspect its structure
+      if ((session?.user as ExtendedUser)?.role === 'admin') {
+        router.push("/admin");
+      } else {
+        router.push("/");
+      }
     }
   };
 
