@@ -24,27 +24,32 @@ export default function Register() {
   const ref = useRef<HTMLFormElement>(null);
 
   const handleSubmit = async (formData: FormData) => {
-    setIsLoading(true);
-    setError(undefined);
-    const r = await register({
-      email: formData.get("email") as string,
-      password: formData.get("password") as string,
-      name: formData.get("name") as string,
-    });
-    ref.current?.reset();
-    setIsLoading(false);
-    if (r?.error) {
-      setError(r.error);
-      toast.error(r.error, {
-        position: "bottom-center",
+    try {
+      setIsLoading(true);
+      setError(undefined);
+      await register({
+        email: formData.get("email") as string,
+        password: formData.get("password") as string,
+        name: formData.get("name") as string,
       });
-      return;
-    } else {
+
       toast.success("Signup successful!", {
         position: "bottom-center",
       });
-      router.push("/login"); // Redirect to login after successful signup
+      router.push("/login");
       return;
+    } catch (error) {
+      console.error("Error signing up: ", error);
+      const errorMessage =
+        "An unexpected error occurred" +
+        (error instanceof Error ? error.message : String(error));
+
+      setError(errorMessage);
+      toast.error(errorMessage, {
+        position: "bottom-center",
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
   return (

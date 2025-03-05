@@ -7,7 +7,7 @@ import { redirect } from "next/navigation";
 export const register = async (values: { email: string, password: string, name: string }) => {
     const { email, password, name } = values;
 
-    try {
+    // try {
         await connectDB();
         const userFound = await User.findOne({ email });
         if (userFound) {
@@ -22,10 +22,11 @@ export const register = async (values: { email: string, password: string, name: 
             password: hashedPassword,
         });
         await user.save();
-
-    } catch (e) {
-        console.log(e);
-    } finally {
         redirect('/login');
-    }
+
+    // } catch (e) {
+    //     console.log("Error signing up: ", email);
+    //     throw new Error("Error signing up");
+    // } finally {
+    // }
 }
