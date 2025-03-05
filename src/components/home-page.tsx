@@ -7,13 +7,15 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { MapPin, Utensils, User, Leaf, ChevronLeft, ChevronRight, Menu } from 'lucide-react'
 import { useRef, useState } from 'react'
+import { ExtendedUser } from '@/lib/auth'
 
 interface HomePageProps {
   authStatus: "authenticated" | "loading" | "unauthenticated"
   router: AppRouterInstance
+  user?: ExtendedUser
 }
 
-export default function HomePage({ authStatus, router }: HomePageProps) {
+export default function HomePage({ authStatus, router, user }: HomePageProps) {
   const carouselRef = useRef<HTMLDivElement>(null)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
@@ -30,10 +32,10 @@ export default function HomePage({ authStatus, router }: HomePageProps) {
       return (
         <div className="flex gap-4">
           {/* Profile Link */}
-          <Link href="/profile">
+          <Link href={user?.role === "guide" ? `/guide/${user.id}` : "/profile"}>
             <Button variant="default">Profile</Button>
           </Link>
-  
+
           {/* Sign Out Button */}
           <Button
             variant="outline"

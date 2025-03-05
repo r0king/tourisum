@@ -5,29 +5,29 @@
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 210 47% 37%; /* Based on #31708E */
+    --foreground: 210 47% 37%;
     --card: 0 0% 100%;
     --card-foreground: 210 47% 37%;
     --popover: 0 0% 100%;
     --popover-foreground: 210 47% 37%;
-    --primary: 210 47% 37%;    /* #31708E */
+    --primary: 210 47% 37%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 198 44% 63%;  /* #8FC1E3 */
+    --secondary: 198 44% 63%;
     --secondary-foreground: 210 47% 37%;
-    --muted: 201 33% 48%;     /* #5085A5 */
+    --muted: 201 33% 48%;
     --muted-foreground: 210 15% 70%;
-    --accent: 96 9% 41%;      /* #687864 */
+    --accent: 96 9% 41%;
     --accent-foreground: 210 47% 37%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
     --border: 210 20% 90%;
     --input: 210 20% 90%;
     --ring: 210 47% 37%;
-    --chart-1: 210 47% 37%;    /* #31708E */
-    --chart-2: 201 33% 48%;    /* #5085A5 */
-    --chart-3: 198 44% 63%;    /* #8FC1E3 */
-    --chart-4: 96 9% 41%;      /* #687864 */
-    --chart-5: 204 33% 98%;    /* #F7F9FB */
+    --chart-1: 210 47% 37%;
+    --chart-2: 201 33% 48%;
+    --chart-3: 198 44% 63%;
+    --chart-4: 96 9% 41%;
+    --chart-5: 204 33% 98%;
     --radius: 0.5rem;
   }
 }
@@ -36,17 +36,7 @@
   * {
     @apply border-border;
   }
-  body {
-    @apply bg-background text-foreground;
-  }
-}
 
-
-
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
   body {
     @apply bg-background text-foreground;
   }
