@@ -11,9 +11,7 @@ export const register = async (values: { email: string, password: string, name: 
         await connectDB();
         const userFound = await User.findOne({ email });
         if (userFound) {
-            return {
-                error: 'Email already exists!'
-            }
+            throw new Error("Email already exists");
         }
         const hashedPassword = await bcrypt.hash(password, 10);
         const user = new User({
