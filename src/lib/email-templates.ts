@@ -24,6 +24,9 @@ export type TemplateData = {
     guideLanguages: string[];
     guideSpecialties: string[];
   };
+  GUIDE_SIGNUP_CONFIRMATION: {
+    userName: string;
+  };
 };
 
 export const renderEmailTemplate = <T extends keyof TemplateData>(
@@ -87,6 +90,17 @@ export const renderEmailTemplate = <T extends keyof TemplateData>(
             <p>Languages: ${guideLanguages.join(', ')}</p>
             <p>Specialties: ${guideSpecialties.join(', ')}</p>
             <p>We are excited for you to explore!</p>
+          </body>
+        </html>
+      `,
+    GUIDE_SIGNUP_CONFIRMATION: ({ userName }: TemplateData["GUIDE_SIGNUP_CONFIRMATION"]) => `
+        <!DOCTYPE html>
+        <html>
+          <body>
+            <h1>Thank you for signing up!</h1>
+            <p>Dear ${userName},</p>
+            <p>Thank you for registering as a guide. We are currently reviewing your application and will get back to you soon.</p>
+            <p>Thank you for your patience.</p>
           </body>
         </html>
       `,

@@ -38,6 +38,7 @@ const getEmailSubject = (templateType: keyof TemplateData): string | undefined =
     SUCCESS: 'Booking Confirmation',
     CONFIRMATION: 'Booking Receipt',
     FAILED: 'Booking Failed',
-    GUIDE_ASSIGNED: 'Guide Assigned to Booking' // Added case for GUIDE_ASSIGNED
+    GUIDE_ASSIGNED: 'Guide Assigned to Booking', // Added case for GUIDE_ASSIGNED
+    GUIDE_SIGNUP_CONFIRMATION: 'Guide Signup Confirmation'
   }[templateType];
 };

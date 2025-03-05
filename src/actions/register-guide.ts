@@ -6,6 +6,12 @@ import bcrypt from "bcryptjs";
 import { redirect } from "next/navigation";
 import { sendEmail } from '@/app/actions/send-email';
 
+/**
+ * Registers a new guide.
+ * 
+ * @param values - Guide registration data.
+ * @returns - Success or error object.
+ */
 export const registerGuide = async (values: {
   name: string,
   email: string,
@@ -50,20 +56,18 @@ export const registerGuide = async (values: {
 
     await guide.save();
 
-    await sendEmail('CONFIRMATION', email, { 
+    await sendEmail('GUIDE_SIGNUP_CONFIRMATION', email, {
       userName: name,
-      bookingId: 'GUIDE_SIGNUP',
-      date: new Date().toDateString() 
     });
 
-  } catch (e) {
-    console.error("Error registering guide:", e);
+    return { success: true };
+
+  } catch (error: any) {
+    console.error("Error registering guide:", error);
     return {
       error: 'An error occurred while registering the guide. Please try again later.'
     }
-  }
-  finally {
-
+  } finally {
     redirect("/login");
   }
 }
